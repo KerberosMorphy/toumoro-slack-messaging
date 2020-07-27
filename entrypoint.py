@@ -13,7 +13,7 @@ def post_message(
     headers: Dict[str, str],
     body: Dict[str, Union[List[Dict[str, str]], Optional[str]]],
 ) -> str:
-    response: Response = post.request(url=url, headers=headers, json=body)
+    response: Response = post(url=url, headers=headers, json=body)
     response.raise_for_status()
     timestamp: str = response.json()["message"]["ts"]
     print(f"::set-output name=timestamp::{timestamp}")
@@ -98,7 +98,7 @@ def main() -> str:
     if verbose == 2:
         print(f"With headers:")
         safe_header: Dict[str, str] = copy(headers)
-        safe_header["X-API-Key"] = f"{safe_header['X-API-Key'][0:4]}..."
+        safe_header["X-API-Key"] = f"{safe_header['X-API-Key'][0:2]}..."
         print(f"{pformat(safe_header, indent=4)}")
     return post_message(url, headers, body)
 
