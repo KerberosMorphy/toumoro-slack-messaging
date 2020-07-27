@@ -1,0 +1,30 @@
+name: Publish to DockerHub
+
+on:
+  push:
+    branches:
+      - "master"
+
+env:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/toumoro-slack-messaging
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Publish Toumoro Slack Messaging
+        uses: docker/build-push-action@v1.1.0
+        with:
+          name: ${{ env.IMAGE_NAME }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+          cache_froms: ${{ env.IMAGE_NAME }}:latest
+          repository: ${{ env.IMAGE_NAME }}
+          tags: latest
