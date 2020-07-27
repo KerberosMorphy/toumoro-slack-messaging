@@ -12,6 +12,9 @@ inputs:
   service:
     description: 'Service using this action as 'github', 'gitlab', 'bitbucket'.'
     required: true
+  project:
+    description: 'Name of the project.'
+    required: true
   channel:
     description: 'Slack channel to post the message.'
     required: true
@@ -25,7 +28,7 @@ inputs:
     description: 'Step triggering the call.'
     required: true
   type:
-    description: 'Message type. ('error', 'deploy', 'status').'
+    description: 'Message type. ('error', 'request', 'status').'
     required: true
   status:
     description: 'Inline status following the regex `(?(DEFINE)(?<status>\w*:(?:FAIL|PASS)))^(?&status)(?:;(?&status))*$` as `Build:PASS;Test:FAIL`.'

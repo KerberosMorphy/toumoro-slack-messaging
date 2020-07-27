@@ -20,6 +20,10 @@ This action need a compatible backend using API Key from the header `X-API-Key`.
 
 **Required** Service using this action as `'github'`, `'gitlab'`, `'bitbucket'`.
 
+### `project`
+
+**Required** Name of the project.
+
 ### `channel`
 
 **Required** Slack channel to post the message.
@@ -38,7 +42,7 @@ This action need a compatible backend using API Key from the header `X-API-Key`.
 
 ### `type`
 
-**Required** Message type as (`'error'`, `'deploy'`, `'status'`).
+**Required** Message type as (`'error'`, `'request'`, `'status'`).
 
 ### `status`
 
@@ -98,7 +102,7 @@ jobs:
         actor: ${{ github.actor }}
         repository: ${{ github.repository }}
         workflow: 'my-next-workflow.yml'
-        verbose: 'add anything to trigger verbose'
+        verbose: '0'
 ```
 
 ### GitLab CI

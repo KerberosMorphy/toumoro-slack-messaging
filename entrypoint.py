@@ -122,4 +122,3 @@ if __name__ == "__main__":
         print(f"{Fore.GREEN}Request successful with message timestamp '{Fore.WHITE}{Style.BRIGHT}{timestamp}'")
     finally:
         deinit()
-gi

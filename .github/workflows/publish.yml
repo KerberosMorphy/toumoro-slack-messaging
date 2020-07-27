@@ -21,7 +21,6 @@ jobs:
       - name: Publish Toumoro Slack Messaging
         uses: docker/build-push-action@v1.1.0
         with:
-          name: ${{ env.IMAGE_NAME }}
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
           registry: ${{ env.DOCKER_REGISTRY }}
