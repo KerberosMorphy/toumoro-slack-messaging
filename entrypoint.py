@@ -12,13 +12,9 @@ def post_message(
     url: str,
     headers: Dict[str, str],
     body: Dict[str, Union[List[Dict[str, str]], Optional[str]]],
-) -> str:
+):
     response: Response = post(url=url, headers=headers, json=body)
     response.raise_for_status()
-    print(pformat(response.json()))
-    timestamp: str = response.json()["message"]["ts"]
-    print(f"::set-output name=timestamp::{timestamp}")
-    return timestamp
 
 
 def build_status_element(status_string: str) -> List[Dict[str, str]]:
@@ -92,22 +88,23 @@ def main() -> str:
 
     verbose: int = int(environ.get("INPUT_VERBOSE", 0))
 
-    print(f"Call to URL: {url}")
-    if verbose == 1:
-        print(f"With parameters:")
-        print(f"{pformat(body, indent=4)}")
+    print(f"  Call to URL:")
+    print(f"    {url}")
+    if verbose > 1:
+        print(f"  With parameters:")
+        print(f"    {body}")
     if verbose == 2:
-        print(f"With headers:")
         safe_header: Dict[str, str] = copy(headers)
         safe_header["X-API-Key"] = f"{safe_header['X-API-Key'][0:2]}..."
-        print(f"{pformat(safe_header, indent=4)}")
-    return post_message(url, headers, body)
+        print(f"  With headers:")
+        print(f"    {safe_header}")
+    post_message(url, headers, body)
 
 
 if __name__ == "__main__":
     try:
         print(f"Toumoro Slack Messaging")
-        timestamp: str = main()
+        main()
     except AssertionError as err:
         print(f"{err}")
         exit(42)
@@ -118,4 +115,4 @@ if __name__ == "__main__":
         print(f"Missing parameters: {err}")
         exit(42)
     else:
-        print(f"Request successful with message timestamp '{timestamp}'")
+        print(f"Request successful")

@@ -72,12 +72,6 @@ This action need a compatible backend using API Key from the header `X-API-Key`.
 
 **Optional** Level of verbose, options: ['0', '1', '2'], default: '0'. **WARNING: Level 1 and 2 can print sensitive information.**
 
-## Outputs
-
-### `timestamp`
-
-Timestamp from published message.
-
 ## Example usage
 
 ### GitHub Actions
