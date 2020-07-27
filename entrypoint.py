@@ -39,42 +39,42 @@ def github_message_builder(
 ) -> Tuple[str, Dict[str, str], Dict[str, Union[List[Dict[str, str]], Optional[str]]]]:
     body: Dict[str, Union[List[Dict[str, str]], Optional[str]]] = {
         "status": status,
-        "issue_id": environ.get("ISSUE_ID", None),
-        "github_actor": environ["ACTOR"],
-        "github_repository": environ.get("REPOSITORY", None),
-        "workflow": environ.get("WORKFLOW", None),
-        "slack_timestamp": environ.get("TIMESTAMP", None),
+        "issue_id": environ.get("INPUT_ISSUE_ID", None),
+        "github_actor": environ["INPUT_ACTOR"],
+        "github_repository": environ.get("INPUT_REPOSITORY", None),
+        "workflow": environ.get("INPUT_WORKFLOW", None),
+        "slack_timestamp": environ.get("INPUT_TIMESTAMP", None),
     }
 
     headers: Dict[str, str] = {
         "Content-Type": "application/json",
-        "X-API-Key": environ["API_KEY"],
+        "X-API-Key": environ["INPUT_API_KEY"],
     }
     return url_call, headers, body
 
 
 def main() -> str:
-    base_url: str = environ["API_URL"]
+    base_url: str = environ["INPUT_API_URL"]
     if not base_url.startswith("http"):
         base_url = f"https://{base_url}"
     if not base_url.endswith("/"):
         base_url = f"{base_url}/"
-    service: str = environ["SERVICE"]
+    service: str = environ["INPUT_SERVICE"]
     assert service in [
         "github",
         "gitlab",
         "bitbucket",
     ], "Service must be either 'github', 'gitlab' or 'bitbucket'"
-    channel: str = quote_plus(environ["CHANNEL"])
-    project: str = quote_plus(environ["PROJECT"])
-    ref: str = quote_plus(environ["REF"])
-    run_id: str = quote_plus(environ["RUN_ID"])
-    step: str = quote_plus(environ["STEP"])
-    type_message: str = quote_plus(environ["TYPE"])
+    channel: str = quote_plus(environ["INPUT_CHANNEL"])
+    project: str = quote_plus(environ["INPUT_PROJECT"])
+    ref: str = quote_plus(environ["INPUT_REF"])
+    run_id: str = quote_plus(environ["INPUT_RUN_ID"])
+    step: str = quote_plus(environ["INPUT_STEP"])
+    type_message: str = quote_plus(environ["INPUT_TYPE"])
 
     url_call: str = f"{base_url}{service}/{channel}/{project}/{ref}/{run_id}/{step}/{type_message}/"
 
-    status: List[Dict[str, str]] = build_status_element(environ["STATUS"])
+    status: List[Dict[str, str]] = build_status_element(environ["INPUT_STATUS"])
 
     url: str = ""
     headers: Dict[str, str] = {}
@@ -89,7 +89,7 @@ def main() -> str:
         # url, headers, body = bitbucket_message_builder(url_call, status)
         pass
 
-    verbose: int = int(environ.get("VERBOSE", 0))
+    verbose: int = int(environ.get("INPUT_VERBOSE", 0))
 
     print(f"Call to URL: {url}")
     if verbose == 1:
@@ -106,7 +106,6 @@ def main() -> str:
 if __name__ == "__main__":
     try:
         print(f"Toumoro Slack Messaging")
-        print(pformat(environ))
         timestamp: str = main()
     except AssertionError as err:
         print(f"{err}")
