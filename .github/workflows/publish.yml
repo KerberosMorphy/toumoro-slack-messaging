@@ -10,6 +10,8 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/toumoro-slack-messaging
+  API_KEY: ${{ secrets.API_KEY }}
+  API_URL: ${{ secrets.API_URL }
 
 jobs:
   build:
@@ -27,3 +29,37 @@ jobs:
           cache_froms: ${{ env.IMAGE_NAME }}:latest
           repository: ${{ env.IMAGE_NAME }}
           tags: latest
+      - name: Deploy Denied
+        if: success()
+        uses: docker://kerberosmorphy/toumoro-slack-messaging:latest
+        with:
+          api_url: ${{ env.API_URL }}
+          api_key: ${{ env.API_KEY }}
+          service: github
+          project: Toumoro Slack Messaging
+          channel: ci-cd
+          ref: ${{ github.ref }}
+          run_id: ${{ github.run_id }}
+          step: Deploy
+          type: status
+          status: Build:PASS
+          issue_id: "5476"
+          actor: ${{ github.actor }}
+          repository: ${{ github.repository }}
+      - name: Deploy Failure Handler
+        if: failure()
+        uses: docker://kerberosmorphy/toumoro-slack-messaging:latest
+        with:
+          api_url: ${{ env.API_URL }}
+          api_key: ${{ env.API_KEY }}
+          service: github
+          project: Toumoro Slack Messaging
+          channel: ci-cd
+          ref: ${{ github.ref }}
+          run_id: ${{ github.run_id }}
+          step: Deploy
+          type: error
+          status: Build:FAIL
+          issue_id: "5476"
+          actor: ${{ github.actor }}
+          repository: ${{ github.repository }}
