@@ -22,10 +22,10 @@ def post_message(
 
 def build_status_element(status_string: str) -> List[Dict[str, str]]:
     status_list: List[Dict[str, str]] = []
-    regex = comp(r"(?(DEFINE)(?<status>\w*:(?:FAIL|PASS)))^(?&status)(?:;(?&status))*$")
+    regex = comp(r"^(?:\w*:(?:FAIL|PASS))(?:;(?:\w*:(?:FAIL|PASS)))*$")
     assert bool(
         regex.match(str(status_string))
-    ), f"Invalid status string {status_string}, must fit (?(DEFINE)(?<status>\\w*:(?:FAIL|PASS)))^(?&status)(?:;(?&status))*$"
+    ), f"Invalid status string {status_string}, must fit ^(?:\w*:(?:FAIL|PASS))(?:;(?:\w*:(?:FAIL|PASS)))*$"
     for status in status_string.split(";"):
         name: str
         state: str
