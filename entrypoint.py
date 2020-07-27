@@ -15,6 +15,7 @@ def post_message(
 ) -> str:
     response: Response = post(url=url, headers=headers, json=body)
     response.raise_for_status()
+    print(pformat(response.json()))
     timestamp: str = response.json()["message"]["ts"]
     print(f"::set-output name=timestamp::{timestamp}")
     return timestamp
