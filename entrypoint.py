@@ -106,6 +106,7 @@ def main() -> str:
 if __name__ == "__main__":
     try:
         print(f"Toumoro Slack Messaging")
+        print(pformat(environ))
         timestamp: str = main()
     except AssertionError as err:
         print(f"{err}")
