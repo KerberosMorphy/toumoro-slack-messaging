@@ -6,7 +6,6 @@ from typing import List, Optional, Union, Dict, Tuple
 from urllib.parse import quote_plus
 
 from requests import post, RequestException, Response
-from colorama import init, deinit, Fore, Style
 
 
 def post_message(
@@ -16,7 +15,7 @@ def post_message(
 ) -> str:
     response: Response = post.request(url=url, headers=headers, json=body)
     response.raise_for_status()
-    timestamp: str = response.json()['message']['ts']
+    timestamp: str = response.json()["message"]["ts"]
     print(f"::set-output name=timestamp::{timestamp}")
     return timestamp
 
@@ -92,33 +91,30 @@ def main() -> str:
 
     verbose: int = int(environ.get("VERBOSE", 0))
 
-    print(f"{Fore.BLUE}Call to URL: {Fore.WHITE}{url}")
+    print(f"Call to URL: {url}")
     if verbose == 1:
-        print(f"{Fore.BLUE}With parameters:")
-        print(f"{Fore.WHITE}{pformat(body, indent=4)}")
+        print(f"With parameters:")
+        print(f"{pformat(body, indent=4)}")
     if verbose == 2:
-        print(f"{Fore.BLUE}With headers:")
+        print(f"With headers:")
         safe_header: Dict[str, str] = copy(headers)
         safe_header["X-API-Key"] = f"{safe_header['X-API-Key'][0:4]}..."
-        print(f"{Fore.WHITE}{pformat(safe_header, indent=4)}")
+        print(f"{pformat(safe_header, indent=4)}")
     return post_message(url, headers, body)
 
 
 if __name__ == "__main__":
-    init(autoreset=True)
     try:
-        print(f"{Fore.BLUE}{Style.BRIGHT}Toumoro Slack Messaging")
+        print(f"Toumoro Slack Messaging")
         timestamp: str = main()
     except AssertionError as err:
-        print(f"{Fore.RED}{err}")
+        print(f"{err}")
         exit(42)
     except RequestException as err:
-        print(f"{Fore.RED}Error either from the API or the request")
+        print(f"Error either from the API or the request")
         exit(42)
     except KeyError as err:
-        print(f"{Fore.RED}Missing parameters")
+        print(f"Missing parameters: {err}")
         exit(42)
     else:
-        print(f"{Fore.GREEN}Request successful with message timestamp '{Fore.WHITE}{Style.BRIGHT}{timestamp}'")
-    finally:
-        deinit()
+        print(f"Request successful with message timestamp '{timestamp}'")
