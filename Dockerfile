@@ -11,7 +11,7 @@ LABEL org.label-schema.vcs-url="https://github.com/tm-bverret/toumoro-slack-mess
 ADD . /app
 WORKDIR /app
 
-RUN pip install --target=/app requests colorama
+RUN pip install --target=/app requests
 
 COPY entrypoint.py /entrypoint.py
 ENV PYTHONPATH /app
