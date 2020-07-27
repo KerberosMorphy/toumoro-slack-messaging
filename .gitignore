@@ -1,0 +1,8 @@
+/*
+!.gitignore
+!*Dockerfile
+!LICENCE
+!/.github/
+!/**/*.py
+!/**/*.md
+!/**/*.yml
