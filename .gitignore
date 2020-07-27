@@ -2,7 +2,7 @@
 !.gitignore
 !*Dockerfile
 !LICENCE
-!/.github/
+!/.github/**/*
 !/**/*.py
 !/**/*.md
 !/**/*.yml
