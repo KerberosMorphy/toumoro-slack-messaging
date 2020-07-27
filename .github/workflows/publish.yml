@@ -35,14 +35,14 @@ jobs:
         with:
           api_url: ${{ env.API_URL }}
           api_key: ${{ env.API_KEY }}
-          service: github
-          project: Toumoro Slack Messaging
-          channel: ci-cd
+          service: "github"
+          project: "Toumoro Slack Messaging"
+          channel: "ci-cd"
           ref: ${{ github.ref }}
           run_id: ${{ github.run_id }}
-          step: Deploy
-          type: status
-          status: Build:PASS
+          step: "Deploy"
+          type: "status"
+          status: "Build:PASS"
           issue_id: "5476"
           actor: ${{ github.actor }}
           repository: ${{ github.repository }}
@@ -52,14 +52,14 @@ jobs:
         with:
           api_url: ${{ env.API_URL }}
           api_key: ${{ env.API_KEY }}
-          service: github
-          project: Toumoro Slack Messaging
-          channel: ci-cd
+          service: "github"
+          project: "Toumoro Slack Messaging"
+          channel: "ci-cd"
           ref: ${{ github.ref }}
           run_id: ${{ github.run_id }}
-          step: Deploy
-          type: error
-          status: Build:FAIL
+          step: "Deploy"
+          type: "error"
+          status: "Build:FAIL"
           issue_id: "5476"
           actor: ${{ github.actor }}
           repository: ${{ github.repository }}
